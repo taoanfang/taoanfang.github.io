@@ -30,7 +30,7 @@ function scoreItem(item, terms) {
 async function renderSearch(query) {
   const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
   if (!terms.length) {
-    searchMeta.textContent = "输入关键词开始搜索";
+    searchMeta.textContent = "Start typing to search";
     searchResults.innerHTML = "";
     return;
   }
@@ -40,7 +40,9 @@ async function renderSearch(query) {
     .filter((entry) => entry.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 12);
-  searchMeta.textContent = matches.length ? `找到 ${matches.length} 条相关笔记` : "没有找到匹配内容";
+  searchMeta.textContent = matches.length
+    ? `${matches.length} matching note${matches.length === 1 ? "" : "s"}`
+    : "No matching notes";
   searchResults.innerHTML = matches
     .map(
       ({ item }) => `<a class="search-result" href="${root}${item.href}">
@@ -68,7 +70,7 @@ searchDialog?.addEventListener("click", (event) => {
 });
 searchInput?.addEventListener("input", (event) => {
   renderSearch(event.target.value).catch(() => {
-    searchMeta.textContent = "搜索索引加载失败";
+    searchMeta.textContent = "Search index failed to load";
   });
 });
 
@@ -100,13 +102,13 @@ document.querySelectorAll(".article-body pre").forEach((pre) => {
   const button = document.createElement("button");
   button.className = "copy-code";
   button.type = "button";
-  button.setAttribute("aria-label", "复制代码");
-  button.innerHTML = '<i data-lucide="copy" width="15" height="15"></i><span>复制</span>';
+  button.setAttribute("aria-label", "Copy code");
+  button.innerHTML = '<i data-lucide="copy" width="15" height="15"></i><span>Copy</span>';
   button.addEventListener("click", async () => {
     await navigator.clipboard.writeText(pre.querySelector("code")?.textContent || "");
-    button.querySelector("span").textContent = "已复制";
+    button.querySelector("span").textContent = "Copied";
     setTimeout(() => {
-      button.querySelector("span").textContent = "复制";
+      button.querySelector("span").textContent = "Copy";
     }, 1400);
   });
   pre.append(button);
@@ -160,3 +162,5 @@ if ("requestIdleCallback" in window) {
 } else {
   window.setTimeout(prefetchSearch, 1200);
 }
+
+document.querySelector("[data-print]")?.addEventListener("click", () => window.print());

@@ -10,7 +10,7 @@ import hljs from "highlight.js";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const output = path.join(root, "docs");
 const config = JSON.parse(fs.readFileSync(path.join(root, "content", "courses.json"), "utf8"));
-const hasResume = Boolean(config.resume?.path && fs.existsSync(path.join(root, config.resume.path)));
+const site = JSON.parse(fs.readFileSync(path.join(root, "content", "profile.json"), "utf8"));
 const generatedAt = new Intl.DateTimeFormat("zh-CN", {
   year: "numeric",
   month: "long",
@@ -121,36 +121,40 @@ function icon(name, size = 18) {
 }
 
 function siteHeader(rootPrefix = "", current = "") {
-  const links = config.courses
+  const links = [
+    ["about", `${rootPrefix}index.html#about`, "About"],
+    ["research", `${rootPrefix}index.html#research`, "Research"],
+    ["project", `${rootPrefix}project/${site.project.slug}.html`, "Project"],
+    ["notes", `${rootPrefix}notes.html`, "Notes"],
+    ["cv", `${rootPrefix}cv.html`, "CV"],
+  ]
     .map(
-      (course) =>
-        `<a class="${current === course.id ? "is-current" : ""}" href="${rootPrefix}${course.id}/index.html">${course.title}</a>`,
+      ([key, href, label]) =>
+        `<a class="${current === key ? "is-current" : ""}" href="${href}">${label}</a>`,
     )
     .join("");
   return `<header class="site-header">
     <div class="header-inner">
       <a class="brand" href="${rootPrefix}index.html" aria-label="返回首页">
-        <span class="brand-mark">LN</span>
-        <span class="brand-text">Learning Notes</span>
+        <span class="brand-mark">ML</span>
+        <span class="brand-text">${escapeHtml(site.name)}</span>
       </a>
-      <button class="menu-button" type="button" data-menu-toggle aria-label="展开导航" aria-expanded="false">
+      <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">
         ${icon("menu", 20)}
       </button>
-      <nav class="site-nav" aria-label="课程导航">
+      <nav class="site-nav" aria-label="Main navigation">
         ${links}
-        <a href="${rootPrefix}index.html#course-index">索引</a>
-        ${hasResume ? `<a href="${rootPrefix}${config.resume.path}" target="_blank" rel="noopener">${escapeHtml(config.resume.title)}</a>` : ""}
       </nav>
       <div class="header-actions">
-        <button class="search-trigger" type="button" data-search-open aria-label="搜索全部笔记">
+        <button class="search-trigger" type="button" data-search-open aria-label="Search notes">
           ${icon("search", 17)}
-          <span>搜索</span>
+          <span>Search</span>
           <kbd>/</kbd>
         </button>
-        <button class="icon-button" type="button" data-theme-toggle aria-label="切换深浅色主题">
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle color theme">
           ${icon("sun-moon", 18)}
         </button>
-        <a class="icon-button" href="${config.repository}" target="_blank" rel="noopener" aria-label="打开 GitHub 仓库">
+        <a class="icon-button" href="${site.github}" target="_blank" rel="noopener" aria-label="Open GitHub profile">
           ${icon("github", 18)}
         </a>
       </div>
@@ -163,10 +167,10 @@ function searchDialog(rootPrefix = "") {
     <div class="search-shell">
       <div class="search-field">
         ${icon("search", 20)}
-        <input type="search" placeholder="搜索概念、课程或代码关键词" aria-label="搜索笔记" data-search-input autocomplete="off">
-        <button class="icon-button" type="button" data-search-close aria-label="关闭搜索">${icon("x", 18)}</button>
+        <input type="search" placeholder="Search concepts, courses, or code" aria-label="Search notes" data-search-input autocomplete="off">
+        <button class="icon-button" type="button" data-search-close aria-label="Close search">${icon("x", 18)}</button>
       </div>
-      <div class="search-meta" data-search-meta>输入关键词开始搜索</div>
+      <div class="search-meta" data-search-meta>Start typing to search</div>
       <div class="search-results" data-search-results></div>
     </div>
   </dialog>`;
@@ -176,28 +180,34 @@ function siteFooter(rootPrefix = "") {
   return `<footer class="site-footer">
     <div class="footer-inner">
       <div>
-        <strong>Learning Notes</strong>
-        <p>${escapeHtml(config.subtitle)}</p>
+        <strong>${escapeHtml(site.name)}</strong>
+        <p>${escapeHtml(site.title)} · ${escapeHtml(site.institution)}</p>
       </div>
       <div class="footer-meta">
-        <span>${noteRecords.length} 篇笔记</span>
-        <span>更新于 ${escapeHtml(generatedAt)}</span>
-        <a href="${rootPrefix}index.html#course-index">全部课程</a>
-        <a href="${config.repository}" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:${escapeHtml(site.email)}">Email</a>
+        <a href="${site.github}" target="_blank" rel="noopener">GitHub</a>
+        <a href="${rootPrefix}notes.html">${noteRecords.length} course notes</a>
+        <span>Updated ${escapeHtml(generatedAt)}</span>
       </div>
     </div>
   </footer>`;
 }
 
-function pageShell({ title, description, rootPrefix, bodyClass, current, content }) {
-  const safeTitle = title === config.title ? title : `${title} · ${config.title}`;
+function pageShell({ title, description, rootPrefix, bodyClass, current, content, lang = "en" }) {
+  const safeTitle =
+    title === site.name ? `${site.name} · ${site.title}` : `${title} · ${site.name}`;
   return `<!doctype html>
-<html lang="zh-CN">
+<html lang="${lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="${escapeHtml(description || config.description)}">
+  <meta name="author" content="${escapeHtml(site.name)}">
   <meta name="color-scheme" content="light dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${escapeHtml(safeTitle)}">
+  <meta property="og:description" content="${escapeHtml(description || site.intro)}">
+  <meta property="og:url" content="${escapeHtml(config.siteUrl)}">
   <title>${escapeHtml(safeTitle)}</title>
   <link rel="icon" href="${rootPrefix}assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="${rootPrefix}assets/vendor/katex.min.css">
@@ -244,65 +254,412 @@ function courseCard(course, rootPrefix = "") {
 }
 
 function homePage() {
-  const totalMinutes = noteRecords.reduce((sum, note) => sum + note.minutes, 0);
-  const courseCards = config.courses.map((course) => courseCard(course)).join("");
-  const spotlight = noteRecords
-    .filter((note) => ["cs229", "cs61b"].includes(note.course.id))
-    .slice(-3)
-    .reverse()
+  const directions = site.directions
     .map(
-      (note) => `<a class="spotlight-item" href="${note.href}">
-        <span>${escapeHtml(note.course.title)}</span>
-        <strong>${escapeHtml(note.title)}</strong>
-        <small>${note.minutes} 分钟</small>
+      (item) => `<article class="direction-item">
+        <span>${escapeHtml(item.index)}</span>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.description)}</p>
+      </article>`,
+    )
+    .join("");
+  const education = site.education
+    .map(
+      (item) => `<article class="education-entry">
+        <div class="education-heading">
+          <div>
+            <h3>${escapeHtml(item.school)}</h3>
+            <p>${escapeHtml(item.degree)}</p>
+          </div>
+          <span>${escapeHtml(item.period)}</span>
+        </div>
+        <ul>${item.details.map((detail) => `<li>${escapeHtml(detail)}</li>`).join("")}</ul>
+      </article>`,
+    )
+    .join("");
+  const skills = site.skills
+    .map(
+      (group) => `<div class="skill-group">
+        <span>${escapeHtml(group.label)}</span>
+        <p>${group.items.map((item) => `<em>${escapeHtml(item)}</em>`).join("")}</p>
+      </div>`,
+    )
+    .join("");
+  const projectMetrics = site.project.headlineMetrics
+    .map(
+      (metric) => `<div class="project-metric">
+        <strong>${escapeHtml(metric.value)}</strong>
+        <span>${escapeHtml(metric.label)}</span>
+      </div>`,
+    )
+    .join("");
+  const projectHighlights = site.project.highlights
+    .slice(0, 3)
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("");
+  const courseRows = config.courses
+    .map(
+      (course) => `<a class="notes-course-row accent-${course.accent}" href="${course.id}/index.html">
+        <span>${escapeHtml(course.title)}</span>
+        <strong>${escapeHtml(course.subtitle)}</strong>
+        <small>${course.notes.length} notes</small>
+        ${icon("arrow-right", 17)}
       </a>`,
     )
     .join("");
+  const learningList = site.learningNow
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("");
 
   const content = `<main id="main-content">
-    <section class="home-hero">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <p class="eyebrow">Computer Science · Notes Archive</p>
-          <h1>把零散课堂笔记，整理成可以反复使用的知识库。</h1>
-          <p class="hero-intro">三条课程线：Java 与数据结构、Python 程序设计、Stanford CS229 机器学习。内容从 Obsidian 整理而来，保留推导、代码、课堂图示与交叉主题。</p>
-          <div class="hero-actions">
-            <button class="primary-button" type="button" data-search-open>${icon("search", 17)} 搜索全部笔记</button>
-            <a class="secondary-button" href="#course-index">浏览课程目录 ${icon("arrow-down", 16)}</a>
+    <section class="academic-hero" id="about">
+      <div class="academic-hero-inner">
+        <div class="academic-identity">
+          <p class="eyebrow">Computer Science · Multimodal Machine Learning</p>
+          <h1>${escapeHtml(site.name)}</h1>
+          <p class="academic-role">${escapeHtml(site.title)} at ${escapeHtml(site.institution)}</p>
+          <p class="academic-intro">${escapeHtml(site.intro)}</p>
+          <div class="academic-actions">
+            <a class="primary-button" href="mailto:${escapeHtml(site.email)}">${icon("mail", 17)} ${escapeHtml(site.email)}</a>
+            <a class="secondary-button" href="${site.github}" target="_blank" rel="noopener">${icon("github", 17)} GitHub</a>
+            <a class="secondary-button" href="cv.html">${icon("file-text", 17)} CV</a>
           </div>
         </div>
-        <aside class="hero-ledger" aria-label="笔记库统计">
-          <div><span>课程</span><strong>${config.courses.length}</strong></div>
-          <div><span>笔记</span><strong>${noteRecords.length}</strong></div>
-          <div><span>预计阅读</span><strong>${totalMinutes}<small> 分钟</small></strong></div>
-          <p>Indexed for fast lookup. Written for review.</p>
+        <aside class="academic-profile-card" aria-label="Profile at a glance">
+          <div class="profile-monogram">ML</div>
+          <dl>
+            <div><dt>Based in</dt><dd>${escapeHtml(site.location)}</dd></div>
+            <div><dt>Degree</dt><dd>B.Eng. Computer Science</dd></div>
+            <div><dt>GPA</dt><dd>${escapeHtml(site.gpa)}</dd></div>
+            <div><dt>Average</dt><dd>${escapeHtml(site.average)}</dd></div>
+          </dl>
+          <p><span></span>${escapeHtml(site.availability)}</p>
         </aside>
       </div>
     </section>
 
-    <section class="course-section" id="course-index">
-      <div class="section-heading">
+    <section class="research-direction" id="research">
+      <div class="section-heading academic-heading">
         <div>
-          <p class="eyebrow">Course Index</p>
-          <h2>按课程开始复习</h2>
+          <p class="eyebrow">Research Direction</p>
+          <h2>Learning to ask questions that experiments can answer.</h2>
         </div>
-        <p>每门课程都有独立目录、章节摘要和连续阅读导航。</p>
+        <p>${escapeHtml(site.researchStatement)}</p>
       </div>
-      <div class="course-grid">${courseCards}</div>
+      <div class="direction-grid">${directions}</div>
     </section>
 
-    <section class="study-map">
-      <div class="section-heading">
-        <div>
-          <p class="eyebrow">Study Map</p>
-          <h2>最近适合回看的主题</h2>
+    <section class="academic-background">
+      <div class="academic-background-inner">
+        <div class="background-block">
+          <p class="eyebrow">Education</p>
+          ${education}
         </div>
-        <p>从公式推导到工程实现，按主题快速跳转。</p>
+        <div class="background-block">
+          <p class="eyebrow">Technical Foundation</p>
+          <div class="skills-list">${skills}</div>
+        </div>
       </div>
-      <div class="spotlight-list">${spotlight}</div>
+    </section>
+
+    <section class="featured-project" id="project">
+      <div class="featured-project-inner">
+        <div class="project-copy">
+          <p class="eyebrow">${escapeHtml(site.project.eyebrow)}</p>
+          <h2>When the model learned the page style, but not the page.</h2>
+          <p class="project-summary">${escapeHtml(site.project.summary)}</p>
+          <ul class="project-highlights">${projectHighlights}</ul>
+          <a class="text-link project-link" href="project/${site.project.slug}.html">Read the project case study ${icon("arrow-up-right", 16)}</a>
+        </div>
+        <div class="project-visual-panel" aria-label="Document to Markdown pipeline">
+          <div class="pipeline-flow">
+            <div><span>01</span><strong>Page image</strong><small>896 × 896</small></div>
+            <i>${icon("arrow-down", 18)}</i>
+            <div><span>02</span><strong>Vision encoder</strong><small>SigLIP + compressor</small></div>
+            <i>${icon("arrow-down", 18)}</i>
+            <div><span>03</span><strong>Visual tokens</strong><small>256 / 1024 budget</small></div>
+            <i>${icon("arrow-down", 18)}</i>
+            <div><span>04</span><strong>Language decoder</strong><small>Qwen2.5 + LoRA</small></div>
+          </div>
+          <div class="project-metric-grid">${projectMetrics}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="learning-section">
+      <div class="learning-inner">
+        <div>
+          <p class="eyebrow">How I Work</p>
+          <h2>Build the smallest useful system, then measure what it gets wrong.</h2>
+        </div>
+        <ul class="learning-list">${learningList}</ul>
+      </div>
+    </section>
+
+    <section class="home-notes-section" id="notes">
+      <div class="section-heading academic-heading">
+        <div>
+          <p class="eyebrow">Supporting Work</p>
+          <h2>Course notes, kept as a working record.</h2>
+        </div>
+        <p>${noteRecords.length} notes across Java and data structures, Python, and Stanford CS229. These are study records, not claims of completed research.</p>
+      </div>
+      <div class="notes-course-list">${courseRows}</div>
+      <a class="text-link notes-library-link" href="notes.html">Open the full notes library ${icon("arrow-right", 16)}</a>
+    </section>
+
+    <section class="contact-section">
+      <div class="contact-inner">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>I am looking for a place to learn how rigorous research is done.</h2>
+        </div>
+        <div class="contact-copy">
+          <p>If my background is relevant to your group, I would be glad to discuss how I can contribute as an undergraduate researcher.</p>
+          <a class="primary-button" href="mailto:${escapeHtml(site.email)}">${icon("mail", 17)} ${escapeHtml(site.email)}</a>
+        </div>
+      </div>
     </section>
   </main>`;
-  return pageShell({ title: config.title, description: config.description, rootPrefix: "", bodyClass: "home-page", current: "", content });
+  return pageShell({
+    title: site.name,
+    description: site.intro,
+    rootPrefix: "",
+    bodyClass: "home-page academic-home",
+    current: "about",
+    content,
+  });
+}
+
+function notesPage() {
+  const courseCards = config.courses.map((course) => courseCard(course)).join("");
+  const totalMinutes = noteRecords.reduce((sum, note) => sum + note.minutes, 0);
+  const content = `<main id="main-content" class="notes-library-page">
+    <header class="notes-library-hero">
+      <div class="notes-library-inner">
+        <a class="back-link" href="index.html">${icon("arrow-left", 15)} Mingjv Li</a>
+        <p class="eyebrow">Course Notes · ${noteRecords.length} Notes</p>
+        <h1>Learning Notes</h1>
+        <p>A searchable record of coursework and independent study across data structures, Python, and machine learning.</p>
+        <div class="notes-library-meta">
+          <span>${config.courses.length} courses</span>
+          <span>${noteRecords.length} notes</span>
+          <span>${totalMinutes} min reading</span>
+          <button class="search-trigger compact" type="button" data-search-open>${icon("search", 16)} Search notes</button>
+        </div>
+      </div>
+    </header>
+    <section class="course-section notes-library-content">
+      <div class="course-grid">${courseCards}</div>
+    </section>
+  </main>`;
+  return pageShell({
+    title: "Course Notes",
+    description: "Course notes in data structures, Python, and machine learning.",
+    rootPrefix: "",
+    bodyClass: "notes-library-page",
+    current: "notes",
+    content,
+  });
+}
+
+function projectPage() {
+  const tags = site.project.stack
+    .map((item) => `<span>${escapeHtml(item)}</span>`)
+    .join("");
+  const metrics = site.project.headlineMetrics
+    .map(
+      (metric) => `<div class="case-metric">
+        <strong>${escapeHtml(metric.value)}</strong>
+        <span>${escapeHtml(metric.label)}</span>
+      </div>`,
+    )
+    .join("");
+  const resultRows = site.project.results
+    .map(
+      (result) => `<tr>
+        <td>${escapeHtml(result.setting)}</td>
+        <td>${escapeHtml(result.metric)}</td>
+        <td><strong>${escapeHtml(result.value)}</strong></td>
+      </tr>`,
+    )
+    .join("");
+  const content = `<main id="main-content" class="project-detail-page">
+    <header class="case-hero">
+      <div class="case-hero-inner">
+        <a class="back-link" href="../index.html#project">${icon("arrow-left", 15)} Back to homepage</a>
+        <p class="eyebrow">${escapeHtml(site.project.eyebrow)}</p>
+        <h1>When the model learned the page style, but not the page.</h1>
+        <p class="case-lede">${escapeHtml(site.project.summary)}</p>
+        <div class="project-tags">${tags}</div>
+      </div>
+    </header>
+
+    <div class="case-layout">
+      <aside class="case-sidebar">
+        <div class="case-metrics">${metrics}</div>
+        <p><strong>My role</strong>Independent implementation, training, evaluation, failure analysis, and technical reporting.</p>
+        <p><strong>Project type</strong>Paper reproduction and diagnostic study. This is not a claim of a novel OCR model.</p>
+      </aside>
+
+      <article class="case-article">
+        <section>
+          <p class="eyebrow">Question</p>
+          <h2>Where does visual information disappear?</h2>
+          <p>DeepSeek-OCR motivated a simple question: can a page image be compressed into a small number of visual tokens and decoded into Markdown by a compact language model? I wanted to reproduce the core architecture under a much smaller budget, then determine whether failures came from token compression, the frozen vision encoder, the language decoder, or the evaluation protocol.</p>
+        </section>
+
+        <section>
+          <p class="eyebrow">System</p>
+          <h2>A complete pipeline, small enough to inspect.</h2>
+          <div class="case-pipeline">
+            <div><span>01</span><strong>Document page</strong><small>896 × 896 image</small></div>
+            <i>${icon("arrow-right", 18)}</i>
+            <div><span>02</span><strong>SigLIP encoder</strong><small>frozen vision features</small></div>
+            <i>${icon("arrow-right", 18)}</i>
+            <div><span>03</span><strong>Conv compressor</strong><small>256 / 1024 visual tokens</small></div>
+            <i>${icon("arrow-right", 18)}</i>
+            <div><span>04</span><strong>Qwen2.5 + LoRA</strong><small>document to Markdown</small></div>
+          </div>
+          <p>The first stage trained the visual connector and projection layer. The second stage added LoRA adapters to Qwen2.5-0.5B or Qwen2.5-1.5B. The local experiments used an 8GB RTX 5060 Laptop GPU; larger decoder, hybrid-input, and formula experiments used rented GPUs.</p>
+        </section>
+
+        <section>
+          <p class="eyebrow">Diagnosis</p>
+          <h2>The training loss looked plausible. The model was not reading the image.</h2>
+          <p>Aggregate validation loss was misleading. The generated Markdown was fluent, but pages with different content received nearly identical outputs. I combined four diagnostics:</p>
+          <ul class="case-list">
+            <li><strong>First-token loss:</strong> with no text prefix available, the model could not identify the first character from the image.</li>
+            <li><strong>Cross-page similarity:</strong> compressed visual features became so similar that different pages were almost indistinguishable.</li>
+            <li><strong>Self-retrieval:</strong> outputs were not more similar to their source page than to other pages.</li>
+            <li><strong>Linear probes:</strong> character identity was preserved in the temporal OCR sequence but disappeared after pooling and cross-modal projection.</li>
+          </ul>
+          <blockquote>The most useful result was not a higher score. It was evidence that the model had learned a document-style prior while the image-to-text path remained effectively disconnected.</blockquote>
+        </section>
+
+        <section>
+          <p class="eyebrow">Experiments</p>
+          <h2>Changing the obvious variable did not fix the failure.</h2>
+          <p>I compared visual-token budgets, decoder sizes, soft CTC OCR tokens, hybrid text-plus-soft-token inputs, and formula-page oversampling. Increasing the visual budget from 256 to 1024 tokens did not produce page-specific text. A larger decoder and explicit OCR context improved accuracy, but did not remove the information bottleneck.</p>
+          <div class="results-table-wrap">
+            <table class="results-table">
+              <thead><tr><th>Setting</th><th>Metric</th><th>Result</th></tr></thead>
+              <tbody>${resultRows}</tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <p class="eyebrow">Takeaway</p>
+          <h2>What this project changed in how I work.</h2>
+          <ul class="case-list">
+            <li>I now treat a fluent generated example as a hypothesis, not evidence that a model uses its input.</li>
+            <li>I design negative controls before spending time on larger models or longer training.</li>
+            <li>I document failed experiments and their boundary conditions so that the next decision is based on evidence.</li>
+            <li>I learned that a well-explained failure can be more informative than an untrustworthy improvement.</li>
+          </ul>
+        </section>
+
+        <section class="case-limitations">
+          <p class="eyebrow">Limitations</p>
+          <h2>What this study does not establish.</h2>
+          <p>The main evaluations use small fixed subsets of 20 or 50 pages, and some comparisons were run with a single seed. The results are useful for engineering decisions and failure diagnosis, but they are not a statistically complete benchmark study. The project is a reproduction and analysis, not peer-reviewed research.</p>
+        </section>
+      </article>
+    </div>
+  </main>`;
+  return pageShell({
+    title: "DeepSeek-OCR Reproduction",
+    description: site.project.summary,
+    rootPrefix: "../",
+    bodyClass: "project-detail-page",
+    current: "project",
+    content,
+  });
+}
+
+function cvPage() {
+  const education = site.education
+    .map(
+      (item) => `<section class="cv-block">
+        <div class="cv-block-heading">
+          <div><h2>${escapeHtml(item.school)}</h2><p>${escapeHtml(item.degree)}</p></div>
+          <span>${escapeHtml(item.period)}</span>
+        </div>
+        <ul>${item.details.map((detail) => `<li>${escapeHtml(detail)}</li>`).join("")}</ul>
+      </section>`,
+    )
+    .join("");
+  const skills = site.skills
+    .map(
+      (group) => `<div class="cv-skill-row">
+        <strong>${escapeHtml(group.label)}</strong>
+        <span>${group.items.map(escapeHtml).join(" · ")}</span>
+      </div>`,
+    )
+    .join("");
+  const content = `<main id="main-content" class="cv-page">
+    <div class="cv-toolbar">
+      <a class="back-link" href="index.html">${icon("arrow-left", 15)} Back to homepage</a>
+      <button class="secondary-button print-cv" type="button" data-print>${icon("printer", 16)} Print CV</button>
+    </div>
+    <article class="cv-sheet">
+      <header class="cv-header">
+        <div>
+          <h1>${escapeHtml(site.name)}</h1>
+          <p>${escapeHtml(site.title)} · ${escapeHtml(site.institution)}</p>
+        </div>
+        <div class="cv-contact">
+          <a href="mailto:${escapeHtml(site.email)}">${escapeHtml(site.email)}</a>
+          <a href="${site.github}" target="_blank" rel="noopener">${escapeHtml(site.github.replace("https://", ""))}</a>
+          <span>${escapeHtml(site.location)}</span>
+        </div>
+      </header>
+
+      <section class="cv-section">
+        <h2>Research Direction</h2>
+        <p>${escapeHtml(site.researchStatement)}</p>
+      </section>
+
+      <section class="cv-section">
+        <h2>Education</h2>
+        ${education}
+      </section>
+
+      <section class="cv-section">
+        <h2>Selected Project</h2>
+        <div class="cv-project">
+          <div class="cv-block-heading">
+            <div><h3>${escapeHtml(site.project.title)}</h3><p>${escapeHtml(site.project.eyebrow)}</p></div>
+            <span>2026</span>
+          </div>
+          <p>${escapeHtml(site.project.summary)}</p>
+          <ul>${site.project.highlights.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </div>
+      </section>
+
+      <section class="cv-section">
+        <h2>Technical Skills</h2>
+        <div class="cv-skills">${skills}</div>
+      </section>
+
+      <section class="cv-section">
+        <h2>Leadership</h2>
+        <div class="cv-block-heading">
+          <div><h3>${escapeHtml(site.leadership.role)}</h3><p>${escapeHtml(site.leadership.organization)}</p></div>
+        </div>
+        <p>${escapeHtml(site.leadership.description)}</p>
+      </section>
+    </article>
+  </main>`;
+  return pageShell({
+    title: "Curriculum Vitae",
+    description: `Curriculum vitae for ${site.name}.`,
+    rootPrefix: "",
+    bodyClass: "cv-page cv-document-page",
+    current: "cv",
+    content,
+  });
 }
 
 function noteGroups(course) {
@@ -340,7 +697,7 @@ function coursePage(course) {
     <header class="page-hero course-hero">
       <div class="page-hero-inner">
         <div>
-          <a class="back-link" href="../index.html">${icon("arrow-left", 15)} 全部课程</a>
+          <a class="back-link" href="../notes.html">${icon("arrow-left", 15)} 全部课程</a>
           <p class="eyebrow">${escapeHtml(course.eyebrow)}</p>
           <h1>${escapeHtml(course.title)}</h1>
           <p class="page-subtitle">${escapeHtml(course.subtitle)}</p>
@@ -362,8 +719,9 @@ function coursePage(course) {
     description: course.description,
     rootPrefix: "../",
     bodyClass: `course-index-page accent-${course.accent}`,
-    current: course.id,
+    current: "notes",
     content,
+    lang: "zh-CN",
   });
 }
 
@@ -430,7 +788,7 @@ function buildNotePage(note, course) {
       </aside>
       <article class="note-article">
         <nav class="breadcrumbs" aria-label="面包屑">
-          <a href="../index.html">首页</a><span>/</span><a href="index.html">${escapeHtml(course.title)}</a><span>/</span><span>${escapeHtml(group?.title || "课程")}</span>
+          <a href="../index.html">首页</a><span>/</span><a href="../notes.html">Notes</a><span>/</span><a href="index.html">${escapeHtml(course.title)}</a><span>/</span><span>${escapeHtml(group?.title || "课程")}</span>
         </nav>
         <header class="note-hero">
           <p class="eyebrow">${escapeHtml(course.title)} · ${escapeHtml(group?.title || "课程笔记")}</p>
@@ -456,8 +814,9 @@ function buildNotePage(note, course) {
     description: note.summary,
     rootPrefix: "../",
     bodyClass: `note-detail-page accent-${course.accent}`,
-    current: course.id,
+    current: "notes",
     content,
+    lang: "zh-CN",
   });
 }
 
@@ -498,29 +857,35 @@ function generateRootReadme() {
     .map((course) => `| [${course.title}](notes/${course.id}/README.md) | ${course.subtitle} | ${course.notes.length} |`)
     .join("\n");
   const lines = [
-    "# Learning Notes",
+    `# ${site.name} · Personal Homepage`,
     "",
-    "> CS61B · Python · CS229",
+    `> ${site.title} · ${site.institution}`,
     "",
-    "这是一个从 Obsidian 整理并发布到 GitHub Pages 的学习笔记库。原始笔记保留在 Obsidian 中；本仓库保存适合 GitHub 阅读的 Markdown 版本、课程索引和静态网站。",
+    `个人学术主页与课程笔记库：${config.siteUrl}`,
     "",
-    `当前收录 **${noteRecords.length} 篇笔记**，按三条课程线组织。`,
+    `主页重点介绍我的研究兴趣、DeepSeek-OCR 复现项目、教育背景与技能。课程笔记作为辅助学习记录保留，当前收录 **${noteRecords.length} 篇**。`,
     "",
-    "## 课程目录",
+    "## 页面",
+    "",
+    `- [个人主页](${config.siteUrl})`,
+    `- [DeepSeek-OCR 项目案例](${config.siteUrl}project/deepseek-ocr-reproduction.html)`,
+    `- [课程笔记库](${config.siteUrl}notes.html)`,
+    `- [CV](${config.siteUrl}cv.html)`,
+    "",
+    "## 课程笔记",
     "",
     "| 课程 | 内容 | 笔记数 |",
     "| --- | --- | ---: |",
     stats,
     "",
     "完整目录：[notes/README.md](notes/README.md)",
-    "仓库内站点入口：[docs/index.html](docs/index.html)",
     "",
     "## 目录结构",
     "",
     "```text",
     ".",
     "├── assets/              # 网站源样式、脚本与笔记图片",
-    "├── content/courses.json # 课程、章节与站点元数据",
+    "├── content/             # 个人资料、课程与章节元数据",
     "├── docs/                # 构建后的 GitHub Pages 站点",
     "├── notes/               # GitHub 可读的 Markdown 笔记",
     "├── scripts/             # 笔记导入、站点构建、校验与本地预览",
@@ -532,7 +897,7 @@ function generateRootReadme() {
     "```bash",
     "npm install",
     "npm run sync   # 从 Obsidian 重新导入笔记",
-    "npm run build  # 生成 docs/ 站点",
+    "npm run build  # 生成/更新 docs/ 站点",
     "npm run dev    # 预览站点",
     "```",
     "",
@@ -540,11 +905,7 @@ function generateRootReadme() {
     "",
     "## GitHub Pages",
     "",
-    "推荐将仓库命名为 `<你的 GitHub 用户名>.github.io`，然后在仓库 `Settings → Pages` 中选择：",
-    "",
-    "- Source: `Deploy from a branch`",
-    "- Branch: `main`",
-    "- Folder: `/docs`",
+    "仓库使用 `Deploy from a branch`：`main` 分支的 `/docs` 目录直接发布。更新笔记和页面后运行 `npm run build`，提交 `docs/` 即可。",
     "",
     `发布后的地址为 ${config.siteUrl}`,
     "",
@@ -556,6 +917,7 @@ function generateRootReadme() {
     "- 空白草稿、重复欢迎页和仅剩标题的页面未发布。",
     "- Obsidian 图片引用已转换为仓库相对路径，内部双链已展开为普通文本。",
     "- 数学公式使用 KaTeX，代码块使用 Highlight.js。",
+    "- `node_modules/` 和本地检查截图不进入仓库。",
     "",
     `站点内容更新于 ${generatedAt}。`,
     "",
@@ -597,6 +959,9 @@ const searchIndex = noteRecords.map((note) => ({
 
 copyStaticAssets();
 writeFile("index.html", homePage());
+writeFile("notes.html", notesPage());
+writeFile("project/deepseek-ocr-reproduction.html", projectPage());
+writeFile("cv.html", cvPage());
 for (const course of config.courses) {
   writeFile(`${course.id}/index.html`, coursePage(course));
   for (const note of course.notes) {

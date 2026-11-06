@@ -3,9 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SLL、递归结构、哨兵节点和空指针处理。">
+  <meta name="description" content="栈和队列的抽象结构与使用场景。">
+  <meta name="author" content="Mingjv Li">
   <meta name="color-scheme" content="light dark">
-  <title>链表与递归数据结构 · Learning Notes</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="栈与队列 · Mingjv Li">
+  <meta property="og:description" content="栈和队列的抽象结构与使用场景。">
+  <meta property="og:url" content="https://taoanfang.github.io/">
+  <title>栈与队列 · Mingjv Li</title>
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../assets/vendor/katex.min.css">
   <link rel="stylesheet" href="../assets/styles.css">
@@ -22,27 +27,25 @@
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="../index.html" aria-label="返回首页">
-        <span class="brand-mark">LN</span>
-        <span class="brand-text">Learning Notes</span>
+        <span class="brand-mark">ML</span>
+        <span class="brand-text">Mingjv Li</span>
       </a>
-      <button class="menu-button" type="button" data-menu-toggle aria-label="展开导航" aria-expanded="false">
+      <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">
         <i data-lucide="menu" width="20" height="20" aria-hidden="true"></i>
       </button>
-      <nav class="site-nav" aria-label="课程导航">
-        <a class="is-current" href="../cs61b/index.html">CS61B</a><a class="" href="../python/index.html">Python</a><a class="" href="../cs229/index.html">CS229</a>
-        <a href="../index.html#course-index">索引</a>
-        <a href="../assets/Application_tightened.pdf" target="_blank" rel="noopener">简历</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a class="" href="../index.html#about">About</a><a class="" href="../index.html#research">Research</a><a class="" href="../project/deepseek-ocr-reproduction.html">Project</a><a class="is-current" href="../notes.html">Notes</a><a class="" href="../cv.html">CV</a>
       </nav>
       <div class="header-actions">
-        <button class="search-trigger" type="button" data-search-open aria-label="搜索全部笔记">
+        <button class="search-trigger" type="button" data-search-open aria-label="Search notes">
           <i data-lucide="search" width="17" height="17" aria-hidden="true"></i>
-          <span>搜索</span>
+          <span>Search</span>
           <kbd>/</kbd>
         </button>
-        <button class="icon-button" type="button" data-theme-toggle aria-label="切换深浅色主题">
+        <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle color theme">
           <i data-lucide="sun-moon" width="18" height="18" aria-hidden="true"></i>
         </button>
-        <a class="icon-button" href="https://github.com/taoanfang/taoanfang.github.io" target="_blank" rel="noopener" aria-label="打开 GitHub 仓库">
+        <a class="icon-button" href="https://github.com/taoanfang" target="_blank" rel="noopener" aria-label="Open GitHub profile">
           <i data-lucide="github" width="18" height="18" aria-hidden="true"></i>
         </a>
       </div>
@@ -78,71 +81,78 @@
         <span>10</span>网络编程
       </a><a class="" href="11-adt-and-algorithms.html">
         <span>11</span>ADT 与算法基础
-      </a><a class="" href="13-linear-lists.html">
+      </a><a class="" href="12-linear-lists.html">
         <span>12</span>线性表
-      </a><a class="" href="14-stacks-and-queues.html">
+      </a><a class="is-current" href="13-stacks-and-queues.html">
         <span>13</span>栈与队列
-      </a><a class="is-current" href="15-linked-lists-recursion.html">
+      </a><a class="" href="14-linked-lists-recursion.html">
         <span>14</span>链表与递归数据结构
-      </a><a class="" href="16-doubly-linked-lists.html">
+      </a><a class="" href="15-doubly-linked-lists.html">
         <span>15</span>双向链表与动态数组
-      </a><a class="" href="17-generic-collections.html">
+      </a><a class="" href="16-generic-collections.html">
         <span>16</span>泛型集合入门
-      </a><a class="" href="18-comparable-comparator.html">
+      </a><a class="" href="17-comparable-comparator.html">
         <span>17</span>多态、Comparable 与 Comparator
-      </a><a class="" href="19-asymptotics-union-find.html">
+      </a><a class="" href="18-asymptotics-union-find.html">
         <span>18</span>增长阶与并查集
-      </a><a class="" href="20-binary-search-trees.html">
+      </a><a class="" href="19-binary-search-trees.html">
         <span>19</span>二叉搜索树
-      </a><a class="" href="21-b-trees.html">
+      </a><a class="" href="20-b-trees.html">
         <span>20</span>B 树
       </a></nav>
       </aside>
       <article class="note-article">
         <nav class="breadcrumbs" aria-label="面包屑">
-          <a href="../index.html">首页</a><span>/</span><a href="index.html">CS61B</a><span>/</span><span>数据结构基础</span>
+          <a href="../index.html">首页</a><span>/</span><a href="../notes.html">Notes</a><span>/</span><a href="index.html">CS61B</a><span>/</span><span>数据结构基础</span>
         </nav>
         <header class="note-hero">
           <p class="eyebrow">CS61B · 数据结构基础</p>
-          <h1>链表与递归数据结构</h1>
-          <p class="note-summary">SLL、递归结构、哨兵节点和空指针处理。</p>
+          <h1>栈与队列</h1>
+          <p class="note-summary">栈和队列的抽象结构与使用场景。</p>
           <div class="note-meta">
             <span><i data-lucide="clock-3" width="15" height="15" aria-hidden="true"></i> 1 分钟</span>
-            <span>第 14 / 20 篇</span>
+            <span>第 13 / 20 篇</span>
             <button type="button" data-course-nav-toggle><i data-lucide="list" width="15" height="15" aria-hidden="true"></i> 课程目录</button>
           </div>
         </header>
-        <div class="article-body"><p>数组不能改变大小
-<code>int[] x =new int []{0,1,2} </code>
-<code>int [] x = new int [5]</code>
-链表的传递，值的递归</p>
-<h2 id="递归数据结构：" tabindex="-1">递归数据结构：</h2>
-<h3 id="sllist：" tabindex="-1">SLlist：</h3>
-<h3 id="哨兵节点（处理空指针异常）：" tabindex="-1">哨兵节点（处理空指针异常）：</h3>
-<p>指出一个排头兵，他不指向任何的数据，只是充当一个占位作用，为了不使空组的指针无效。</p>
+        <div class="article-body"><h2 id="栈" tabindex="-1">栈</h2>
+<ul>
+<li>1.顺序存入，先进后出</li>
+<li>2.初始化，清空，销毁，判断是否为空，栈长，取顶</li>
+</ul>
+<pre class="hljs"><code>*top;  /*栈顶指针*/
+*base; /*栈底指针*/
+stacksize； /*指示当前可用最大容量，以元素为单位*/
+length = *top - *base;
+
+</code></pre>
+<ul>
+<li>3.每栈入一个元素，top指针要往上走一个位置</li>
+<li></li>
+</ul>
 </div>
         <nav class="prev-next" aria-label="相邻笔记">
-    <a class="prev" href="14-stacks-and-queues.html"><span>上一篇</span><strong>栈与队列</strong></a>
-    <a class="next" href="16-doubly-linked-lists.html"><span>下一篇</span><strong>双向链表与动态数组</strong></a>
+    <a class="prev" href="12-linear-lists.html"><span>上一篇</span><strong>线性表</strong></a>
+    <a class="next" href="14-linked-lists-recursion.html"><span>下一篇</span><strong>链表与递归数据结构</strong></a>
   </nav>
       </article>
       <aside class="toc-sidebar">
         <strong>本页目录</strong>
-        <nav aria-label="本页目录"><a class="toc-level-2" href="#递归数据结构：">递归数据结构：</a><a class="toc-level-3" href="#sllist：">SLlist：</a><a class="toc-level-3" href="#哨兵节点（处理空指针异常）：">哨兵节点（处理空指针异常）：</a></nav>
+        <nav aria-label="本页目录"><a class="toc-level-2" href="#栈">栈</a></nav>
       </aside>
     </div>
   </main>
   <footer class="site-footer">
     <div class="footer-inner">
       <div>
-        <strong>Learning Notes</strong>
-        <p>CS61B · Python · CS229</p>
+        <strong>Mingjv Li</strong>
+        <p>Computer Science Undergraduate · Communication University of China</p>
       </div>
       <div class="footer-meta">
-        <span>39 篇笔记</span>
-        <span>更新于 2026年11月6日</span>
-        <a href="../index.html#course-index">全部课程</a>
-        <a href="https://github.com/taoanfang/taoanfang.github.io" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:limingjv2007@outlook.com">Email</a>
+        <a href="https://github.com/taoanfang" target="_blank" rel="noopener">GitHub</a>
+        <a href="../notes.html">39 course notes</a>
+        <span>Updated 2026年11月6日</span>
       </div>
     </div>
   </footer>
@@ -150,10 +160,10 @@
     <div class="search-shell">
       <div class="search-field">
         <i data-lucide="search" width="20" height="20" aria-hidden="true"></i>
-        <input type="search" placeholder="搜索概念、课程或代码关键词" aria-label="搜索笔记" data-search-input autocomplete="off">
-        <button class="icon-button" type="button" data-search-close aria-label="关闭搜索"><i data-lucide="x" width="18" height="18" aria-hidden="true"></i></button>
+        <input type="search" placeholder="Search concepts, courses, or code" aria-label="Search notes" data-search-input autocomplete="off">
+        <button class="icon-button" type="button" data-search-close aria-label="Close search"><i data-lucide="x" width="18" height="18" aria-hidden="true"></i></button>
       </div>
-      <div class="search-meta" data-search-meta>输入关键词开始搜索</div>
+      <div class="search-meta" data-search-meta>Start typing to search</div>
       <div class="search-results" data-search-results></div>
     </div>
   </dialog>

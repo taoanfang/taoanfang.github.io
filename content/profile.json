@@ -1,0 +1,132 @@
+{
+  "name": "Mingjv Li",
+  "title": "Computer Science Undergraduate",
+  "institution": "Communication University of China",
+  "location": "Beijing, China",
+  "email": "limingjv2007@outlook.com",
+  "github": "https://github.com/taoanfang",
+  "period": "Sep 2025 - Present",
+  "gpa": "3.61 / 4.0",
+  "average": "90 / 100",
+  "intro": "I am an undergraduate in Computer Science at Communication University of China. I learn machine learning by building small systems, reproducing experiments, and carefully studying where they fail.",
+  "researchStatement": "My current interest is multimodal machine learning, especially how visual information is compressed, aligned, and evaluated in language-model pipelines. I am early in my research training and am looking for an environment where I can learn rigorous methods while contributing careful engineering, reproducible experiments, and honest analysis of negative results.",
+  "availability": "Open to undergraduate research opportunities",
+  "directions": [
+    {
+      "index": "01",
+      "title": "Multimodal document understanding",
+      "description": "How page images become structured Markdown, and where character-level information is lost between vision encoding and language generation."
+    },
+    {
+      "index": "02",
+      "title": "Evaluation of LLM systems",
+      "description": "Beyond aggregate loss: diagnostics that separate template copying, language priors, and genuine image-conditioned generation."
+    },
+    {
+      "index": "03",
+      "title": "Efficient model experimentation",
+      "description": "Training and evaluating useful baselines under tight GPU memory, limited data, and imperfect infrastructure."
+    }
+  ],
+  "education": [
+    {
+      "school": "Communication University of China",
+      "degree": "B.Eng. in Computer Science and Technology",
+      "period": "Sep 2025 - Present",
+      "details": [
+        "GPA: 3.61 / 4.0",
+        "Average score: 90 / 100",
+        "Relevant coursework: programming, data structures, machine learning"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "label": "Programming",
+      "items": ["Python", "C", "Java"]
+    },
+    {
+      "label": "ML / Data",
+      "items": ["PyTorch", "Hugging Face", "NumPy", "Pandas"]
+    },
+    {
+      "label": "Engineering",
+      "items": ["Git", "Linux", "remote GPU training", "experiment reporting"]
+    }
+  ],
+  "learningNow": [
+    "Reading and reproducing papers before extending them",
+    "Designing controls that make model failures measurable",
+    "Writing concise experiment reports with reproducible commands",
+    "Managing memory, data, and evaluation budgets on small GPUs"
+  ],
+  "leadership": {
+    "role": "Minister, Practice Department",
+    "organization": "School of Computer Science",
+    "description": "Organized student activities, coordinated departmental operations, and led recruitment and onboarding."
+  },
+  "project": {
+    "slug": "deepseek-ocr-reproduction",
+    "title": "DeepSeek-OCR Reproduction",
+    "shortTitle": "A compact document-to-Markdown pipeline",
+    "eyebrow": "Independent systems project",
+    "summary": "Built a lightweight DeepSeek-OCR-style pipeline on an 8GB laptop GPU, then designed diagnostics to explain why the trained model learned document-style priors instead of reading the page.",
+    "stack": ["PyTorch", "SigLIP", "Qwen2.5", "LoRA", "CTC", "OmniDocBench"],
+    "highlights": [
+      "Constructed a 428M SigLIP encoder, convolutional visual compressor, projection layer, and Qwen2.5 decoder pipeline with two-stage LoRA training.",
+      "Trained on 5,393 olmOCR pages and evaluated against OmniDocBench without using the benchmark in training.",
+      "Found that both 256-token and 1024-token visual budgets produced page-level template collapse, pointing to the frozen encoder and loss of temporal character alignment rather than token count alone.",
+      "Compared Qwen2.5-0.5B and 1.5B, soft CTC OCR tokens, hybrid text-plus-soft-token inputs, and formula oversampling on rented GPUs."
+    ],
+    "headlineMetrics": [
+      {
+        "value": "5,393",
+        "label": "training pages"
+      },
+      {
+        "value": "8 GB",
+        "label": "local GPU budget"
+      },
+      {
+        "value": "0.5B / 1.5B",
+        "label": "decoder ablations"
+      },
+      {
+        "value": "256 / 1024",
+        "label": "visual-token budgets"
+      }
+    ],
+    "results": [
+      {
+        "setting": "Clean olmOCR pages, 0.5B decoder",
+        "metric": "char accuracy",
+        "value": "55.06%"
+      },
+      {
+        "setting": "Clean olmOCR pages, 1.5B decoder",
+        "metric": "char accuracy",
+        "value": "64.22%"
+      },
+      {
+        "setting": "OmniDocBench subset, 0.5B decoder",
+        "metric": "char accuracy",
+        "value": "20.74%"
+      },
+      {
+        "setting": "OmniDocBench subset, 1.5B decoder",
+        "metric": "char accuracy",
+        "value": "26.34%"
+      },
+      {
+        "setting": "Clean 50 pages, 1.5B hard OCR",
+        "metric": "char accuracy",
+        "value": "64.76%"
+      },
+      {
+        "setting": "Clean 50 pages, formula 3x oversampling",
+        "metric": "char accuracy",
+        "value": "73.83%"
+      }
+    ]
+  }
+}

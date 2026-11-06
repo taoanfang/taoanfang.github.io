@@ -22,18 +22,18 @@
 ### 数据结构基础
 
 11. [ADT 与算法基础](cs61b/11-adt-and-algorithms.md) — 抽象数据类型、算法五要素以及如何从复杂度开始阅读算法。
-12. [线性表](cs61b/13-linear-lists.md) — 线性表的类型定义、顺序实现与链式表达。
-13. [栈与队列](cs61b/14-stacks-and-queues.md) — 栈和队列的抽象结构与使用场景。
-14. [链表与递归数据结构](cs61b/15-linked-lists-recursion.md) — SLL、递归结构、哨兵节点和空指针处理。
-15. [双向链表与动态数组](cs61b/16-doubly-linked-lists.md) — 从单链表到双向链表，以及数组扩容的摊销思路。
-16. [泛型集合入门](cs61b/17-generic-collections.md) — 用 List 和泛型组织一组同类型数据。
-17. [多态、Comparable 与 Comparator](cs61b/18-comparable-comparator.md) — 亚型多态、参数化多态以及两套比较器接口。
-18. [增长阶与并查集](cs61b/19-asymptotics-union-find.md) — Big-O、Big-Theta、Quick Find、Quick Union、按秩合并与路径压缩。
+12. [线性表](cs61b/12-linear-lists.md) — 线性表的类型定义、顺序实现与链式表达。
+13. [栈与队列](cs61b/13-stacks-and-queues.md) — 栈和队列的抽象结构与使用场景。
+14. [链表与递归数据结构](cs61b/14-linked-lists-recursion.md) — SLL、递归结构、哨兵节点和空指针处理。
+15. [双向链表与动态数组](cs61b/15-doubly-linked-lists.md) — 从单链表到双向链表，以及数组扩容的摊销思路。
+16. [泛型集合入门](cs61b/16-generic-collections.md) — 用 List 和泛型组织一组同类型数据。
+17. [多态、Comparable 与 Comparator](cs61b/17-comparable-comparator.md) — 亚型多态、参数化多态以及两套比较器接口。
+18. [增长阶与并查集](cs61b/18-asymptotics-union-find.md) — Big-O、Big-Theta、Quick Find、Quick Union、按秩合并与路径压缩。
 
 ### 复杂度与树结构
 
-19. [二叉搜索树](cs61b/20-binary-search-trees.md) — BST 定义、查找路径、插入删除与复杂度。
-20. [B 树](cs61b/21-b-trees.md) — 从 BST 退化问题进入平衡树与 B 树结构。
+19. [二叉搜索树](cs61b/19-binary-search-trees.md) — BST 定义、查找路径、插入删除与复杂度。
+20. [B 树](cs61b/20-b-trees.md) — 从 BST 退化问题进入平衡树与 B 树结构。
 
 ## Python · 程序设计基础
 

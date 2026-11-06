@@ -88,27 +88,32 @@ async function inspect(url, screenshotName, checks = {}) {
 }
 
 await inspect("/", "home-desktop.png");
+await inspect("/project/deepseek-ocr-reproduction.html", "project-desktop.png");
+await inspect("/notes.html", "notes-desktop.png");
 await inspect("/cs61b/", "course-desktop.png");
 await inspect("/cs229/01-linear-regression.html", "note-desktop.png", { katex: true });
+await inspect("/cv.html", "cv-desktop.png");
 
-await page.getByRole("button", { name: "切换深浅色主题" }).click();
+await page.getByRole("button", { name: "Toggle color theme" }).click();
 await page.screenshot({ path: path.join(work, "note-dark-desktop.png") });
-await page.getByRole("button", { name: "切换深浅色主题" }).click();
+await page.getByRole("button", { name: "Toggle color theme" }).click();
 
-await page.getByRole("button", { name: "搜索全部笔记" }).first().click();
-await page.locator("[data-search-input]").fill("梯度下降");
+await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
+await page.getByRole("button", { name: "Search notes" }).first().click();
+await page.locator("[data-search-input]").fill("核技巧");
 await page.waitForTimeout(250);
 const searchCount = await page.locator(".search-result").count();
-if (!searchCount) failures.push("Search returned no results for 梯度下降");
+if (!searchCount) failures.push("Search returned no results for 核技巧");
 await page.screenshot({ path: path.join(work, "search-desktop.png") });
 await page.locator("[data-search-close]").click();
 
 await page.setViewportSize({ width: 390, height: 844 });
 await inspect("/", "home-mobile.png");
+await inspect("/project/deepseek-ocr-reproduction.html", "project-mobile.png");
 await inspect("/cs61b/", "course-mobile.png");
 await inspect("/python/10-numpy-matplotlib.html", "note-mobile.png");
 
-await page.getByRole("button", { name: "展开导航" }).click();
+await page.getByRole("button", { name: "Open navigation" }).click();
 const navVisible = await page.locator(".site-nav").evaluate((element) => getComputedStyle(element).display !== "none");
 if (!navVisible) failures.push("Mobile navigation did not open");
 await page.screenshot({ path: path.join(work, "nav-mobile.png") });

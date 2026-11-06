@@ -1,13 +1,9 @@
 {
   "title": "Learning Notes",
   "subtitle": "CS61B · Python · CS229",
-  "description": "A structured, searchable collection of computer science and machine learning notes.",
+  "description": "A structured, searchable collection of computer science and machine learning notes by Mingjv Li.",
   "siteUrl": "https://taoanfang.github.io/",
   "repository": "https://github.com/taoanfang/taoanfang.github.io",
-  "resume": {
-    "title": "简历",
-    "path": "assets/Application_tightened.pdf"
-  },
   "sourceRoot": "C:\\obisdian\\CPP\\PY",
   "courses": [
     {
@@ -90,55 +86,55 @@
           "source": "DataStructure\\第一次课.md"
         },
         {
-          "slug": "13-linear-lists",
+          "slug": "12-linear-lists",
           "title": "线性表",
           "summary": "线性表的类型定义、顺序实现与链式表达。",
           "source": "DataStructure\\第二次课——线性表.md"
         },
         {
-          "slug": "14-stacks-and-queues",
+          "slug": "13-stacks-and-queues",
           "title": "栈与队列",
           "summary": "栈和队列的抽象结构与使用场景。",
           "source": "DataStructure\\第三次课-栈和队列.md"
         },
         {
-          "slug": "15-linked-lists-recursion",
+          "slug": "14-linked-lists-recursion",
           "title": "链表与递归数据结构",
           "summary": "SLL、递归结构、哨兵节点和空指针处理。",
           "source": "java\\JAVA\\LLM\\数据结构\\ls5.md"
         },
         {
-          "slug": "16-doubly-linked-lists",
+          "slug": "15-doubly-linked-lists",
           "title": "双向链表与动态数组",
           "summary": "从单链表到双向链表，以及数组扩容的摊销思路。",
           "source": "java\\JAVA\\LLM\\数据结构\\ls8.md"
         },
         {
-          "slug": "17-generic-collections",
+          "slug": "16-generic-collections",
           "title": "泛型集合入门",
           "summary": "用 List 和泛型组织一组同类型数据。",
           "source": "java\\JAVA\\LLM\\数据结构\\ls1.md"
         },
         {
-          "slug": "18-comparable-comparator",
+          "slug": "17-comparable-comparator",
           "title": "多态、Comparable 与 Comparator",
           "summary": "亚型多态、参数化多态以及两套比较器接口。",
           "source": "java\\JAVA\\LLM\\数据结构\\les11.md"
         },
         {
-          "slug": "19-asymptotics-union-find",
+          "slug": "18-asymptotics-union-find",
           "title": "增长阶与并查集",
           "summary": "Big-O、Big-Theta、Quick Find、Quick Union、按秩合并与路径压缩。",
           "source": "java\\JAVA\\LLM\\数据结构\\les13~16——渐进.md"
         },
         {
-          "slug": "20-binary-search-trees",
+          "slug": "19-binary-search-trees",
           "title": "二叉搜索树",
           "summary": "BST 定义、查找路径、插入删除与复杂度。",
           "source": "java\\JAVA\\LLM\\数据结构\\ls17.md"
         },
         {
-          "slug": "21-b-trees",
+          "slug": "20-b-trees",
           "title": "B 树",
           "summary": "从 BST 退化问题进入平衡树与 B 树结构。",
           "source": "java\\JAVA\\LLM\\数据结构\\ls18.md"
