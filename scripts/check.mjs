@@ -68,7 +68,8 @@ page.on("requestfailed", (request) => {
 });
 
 async function inspect(url, screenshotName, checks = {}) {
-  await page.goto(`${baseUrl}${url}`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}${url}`, { waitUntil: "domcontentloaded", timeout: 60000 });
+  await page.waitForTimeout(750);
   if (checks.katex) {
     await page.waitForFunction(() => document.querySelectorAll(".katex").length > 0, null, { timeout: 5000 });
   }

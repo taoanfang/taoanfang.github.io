@@ -223,7 +223,7 @@ function courseCard(course, rootPrefix = "") {
   let visual = "";
   if (cover) {
     visual = `<div class="course-visual course-visual-image">
-      <img src="${rootPrefix}${cover}" alt="${escapeHtml(course.cover.alt || course.title)}" loading="lazy">
+      <img src="${rootPrefix}${cover}" alt="${escapeHtml(course.cover.alt || course.title)}" loading="eager" decoding="async">
     </div>`;
   } else {
     visual = `<div class="course-visual course-visual-code" aria-label="${escapeHtml(course.cover?.alt || "Python 代码预览")}">
