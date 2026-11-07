@@ -1,16 +1,18 @@
-# Mingjv Li · Personal Homepage
+# Mingjv Li · Personal Website Source
 
 > Computer Science Undergraduate · Communication University of China
 
-个人学术主页与课程笔记库：https://taoanfang.github.io/
+这是个人主页的源仓库，不是主页本身。公开个人主页是唯一的主站入口。
 
-主页重点介绍我的研究兴趣、DeepSeek-OCR 复现项目、教育背景与技能。课程笔记作为辅助学习记录保留，当前收录 **39 篇**。
+个人主页：https://taoanfang.github.io/
+
+个人主页重点介绍研究兴趣、DeepSeek-OCR 复现项目、教育背景与技能。课程笔记只是主站下的辅助页面，当前收录 **39 篇**。
 
 ## 页面
 
 - [个人主页](https://taoanfang.github.io/)
 - [DeepSeek-OCR 项目案例](https://taoanfang.github.io/project/deepseek-ocr-reproduction.html)
-- [课程笔记库](https://taoanfang.github.io/notes.html)
+- [辅助课程笔记页](https://taoanfang.github.io/notes.html)
 - [CV](https://taoanfang.github.io/cv.html)
 
 ## 课程笔记
@@ -62,4 +64,4 @@ GitHub 仓库：https://github.com/taoanfang/taoanfang.github.io
 - 数学公式使用 KaTeX，代码块使用 Highlight.js。
 - `node_modules/` 和本地检查截图不进入仓库。
 
-站点内容更新于 2026年11月6日。
+站点内容更新于 2026年11月7日。

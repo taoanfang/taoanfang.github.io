@@ -1,9 +1,9 @@
 {
-  "name": "limin-learning-notes",
+  "name": "mingjv-li-personal-homepage",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "A GitHub Pages learning notes site for CS61B, Python, and CS229.",
+  "description": "Source for Mingjv Li's personal academic homepage and supporting course notes.",
   "scripts": {
     "sync": "node scripts/sync-notes.mjs",
     "build": "node scripts/build.mjs",

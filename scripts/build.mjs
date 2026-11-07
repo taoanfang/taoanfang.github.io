@@ -186,7 +186,7 @@ function siteFooter(rootPrefix = "") {
       <div class="footer-meta">
         <a href="mailto:${escapeHtml(site.email)}">Email</a>
         <a href="${site.github}" target="_blank" rel="noopener">GitHub</a>
-        <a href="${rootPrefix}notes.html">${noteRecords.length} course notes</a>
+        <a href="${rootPrefix}notes.html">Notes</a>
         <span>Updated ${escapeHtml(generatedAt)}</span>
       </div>
     </div>
@@ -440,7 +440,7 @@ function notesPage() {
         <a class="back-link" href="index.html">${icon("arrow-left", 15)} Mingjv Li</a>
         <p class="eyebrow">Course Notes · ${noteRecords.length} Notes</p>
         <h1>Learning Notes</h1>
-        <p>A searchable record of coursework and independent study across data structures, Python, and machine learning.</p>
+        <p>A supporting archive of coursework and independent study. This is part of the personal homepage, not its main focus.</p>
         <div class="notes-library-meta">
           <span>${config.courses.length} courses</span>
           <span>${noteRecords.length} notes</span>
@@ -857,19 +857,21 @@ function generateRootReadme() {
     .map((course) => `| [${course.title}](notes/${course.id}/README.md) | ${course.subtitle} | ${course.notes.length} |`)
     .join("\n");
   const lines = [
-    `# ${site.name} · Personal Homepage`,
+    `# ${site.name} · Personal Website Source`,
     "",
     `> ${site.title} · ${site.institution}`,
     "",
-    `个人学术主页与课程笔记库：${config.siteUrl}`,
+    "这是个人主页的源仓库，不是主页本身。公开个人主页是唯一的主站入口。",
     "",
-    `主页重点介绍我的研究兴趣、DeepSeek-OCR 复现项目、教育背景与技能。课程笔记作为辅助学习记录保留，当前收录 **${noteRecords.length} 篇**。`,
+    `个人主页：${config.siteUrl}`,
+    "",
+    `个人主页重点介绍研究兴趣、DeepSeek-OCR 复现项目、教育背景与技能。课程笔记只是主站下的辅助页面，当前收录 **${noteRecords.length} 篇**。`,
     "",
     "## 页面",
     "",
     `- [个人主页](${config.siteUrl})`,
     `- [DeepSeek-OCR 项目案例](${config.siteUrl}project/deepseek-ocr-reproduction.html)`,
-    `- [课程笔记库](${config.siteUrl}notes.html)`,
+    `- [辅助课程笔记页](${config.siteUrl}notes.html)`,
     `- [CV](${config.siteUrl}cv.html)`,
     "",
     "## 课程笔记",
