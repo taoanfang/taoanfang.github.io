@@ -12,7 +12,6 @@
   <meta property="og:url" content="https://taoanfang.github.io/">
   <title>DeepSeek-OCR Reproduction · Mingjv Li</title>
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/vendor/katex.min.css">
   <link rel="stylesheet" href="../assets/styles.css">
   <script>
     (() => {
@@ -26,22 +25,15 @@
   <a class="skip-link" href="#main-content">跳到正文</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="../index.html" aria-label="返回首页">
+      <a class="brand" href="../index.html" aria-label="Back to homepage">
         <span class="brand-mark">ML</span>
         <span class="brand-text">Mingjv Li</span>
       </a>
       <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">
         <i data-lucide="menu" width="20" height="20" aria-hidden="true"></i>
       </button>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a class="" href="../index.html#about">About</a><a class="" href="../index.html#research">Research</a><a class="is-current" href="../project/deepseek-ocr-reproduction.html">Project</a><a class="" href="../notes.html">Notes</a><a class="" href="../cv.html">CV</a>
-      </nav>
+      <nav class="site-nav" aria-label="Main navigation"><a class="" href="../index.html#about">About</a><a class="" href="../index.html#research">Research</a><a class="is-current" href="../project/deepseek-ocr-reproduction.html">Project</a><a class="" href="https://taoanfang.github.io/learning-notes/">Notes</a><a class="" href="../cv.html">CV</a></nav>
       <div class="header-actions">
-        <button class="search-trigger" type="button" data-search-open aria-label="Search notes">
-          <i data-lucide="search" width="17" height="17" aria-hidden="true"></i>
-          <span>Search</span>
-          <kbd>/</kbd>
-        </button>
         <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle color theme">
           <i data-lucide="sun-moon" width="18" height="18" aria-hidden="true"></i>
         </button>
@@ -61,113 +53,46 @@
         <div class="project-tags"><span>PyTorch</span><span>SigLIP</span><span>Qwen2.5</span><span>LoRA</span><span>CTC</span><span>OmniDocBench</span></div>
       </div>
     </header>
-
     <div class="case-layout">
       <aside class="case-sidebar">
-        <div class="case-metrics"><div class="case-metric">
-        <strong>5,393</strong>
-        <span>training pages</span>
-      </div><div class="case-metric">
-        <strong>8 GB</strong>
-        <span>local GPU budget</span>
-      </div><div class="case-metric">
-        <strong>0.5B / 1.5B</strong>
-        <span>decoder ablations</span>
-      </div><div class="case-metric">
-        <strong>256 / 1024</strong>
-        <span>visual-token budgets</span>
-      </div></div>
+        <div class="case-metrics"><div class="case-metric"><strong>5,393</strong><span>training pages</span></div><div class="case-metric"><strong>8 GB</strong><span>local GPU budget</span></div><div class="case-metric"><strong>0.5B / 1.5B</strong><span>decoder ablations</span></div><div class="case-metric"><strong>256 / 1024</strong><span>visual-token budgets</span></div></div>
         <p><strong>My role</strong>Independent implementation, training, evaluation, failure analysis, and technical reporting.</p>
         <p><strong>Project type</strong>Paper reproduction and diagnostic study. This is not a claim of a novel OCR model.</p>
       </aside>
-
       <article class="case-article">
-        <section>
-          <p class="eyebrow">Question</p>
-          <h2>Where does visual information disappear?</h2>
-          <p>DeepSeek-OCR motivated a simple question: can a page image be compressed into a small number of visual tokens and decoded into Markdown by a compact language model? I wanted to reproduce the core architecture under a much smaller budget, then determine whether failures came from token compression, the frozen vision encoder, the language decoder, or the evaluation protocol.</p>
-        </section>
-
-        <section>
-          <p class="eyebrow">System</p>
-          <h2>A complete pipeline, small enough to inspect.</h2>
+        <section><p class="eyebrow">Question</p><h2>Where does visual information disappear?</h2><p>DeepSeek-OCR motivated a simple question: can a page image be compressed into a small number of visual tokens and decoded into Markdown by a compact language model? I wanted to reproduce the core architecture under a much smaller budget, then determine whether failures came from token compression, the frozen vision encoder, the language decoder, or the evaluation protocol.</p></section>
+        <section><p class="eyebrow">System</p><h2>A complete pipeline, small enough to inspect.</h2>
           <div class="case-pipeline">
-            <div><span>01</span><strong>Document page</strong><small>896 × 896 image</small></div>
-            <i><i data-lucide="arrow-right" width="18" height="18" aria-hidden="true"></i></i>
-            <div><span>02</span><strong>SigLIP encoder</strong><small>frozen vision features</small></div>
-            <i><i data-lucide="arrow-right" width="18" height="18" aria-hidden="true"></i></i>
-            <div><span>03</span><strong>Conv compressor</strong><small>256 / 1024 visual tokens</small></div>
-            <i><i data-lucide="arrow-right" width="18" height="18" aria-hidden="true"></i></i>
+            <div><span>01</span><strong>Document page</strong><small>896 × 896 image</small></div><i><i data-lucide="arrow-right" width="18" height="18" aria-hidden="true"></i></i>
+            <div><span>02</span><strong>SigLIP encoder</strong><small>frozen vision features</small></div><i><i data-lucide="arrow-right" width="18" height="18" aria-hidden="true"></i></i>
+            <div><span>03</span><strong>Conv compressor</strong><small>256 / 1024 visual tokens</small></div><i><i data-lucide="arrow-right" width="18" height="18" aria-hidden="true"></i></i>
             <div><span>04</span><strong>Qwen2.5 + LoRA</strong><small>document to Markdown</small></div>
           </div>
-          <p>The first stage trained the visual connector and projection layer. The second stage added LoRA adapters to Qwen2.5-0.5B or Qwen2.5-1.5B. The local experiments used an 8GB RTX 5060 Laptop GPU; larger decoder, hybrid-input, and formula experiments used rented GPUs.</p>
+          <p>The first stage trained the visual connector and projection layer. The second stage added LoRA adapters to Qwen2.5-0.5B or Qwen2.5-1.5B. Local experiments used an 8GB RTX 5060 Laptop GPU; larger decoder, hybrid-input, and formula experiments used rented GPUs.</p>
         </section>
-
-        <section>
-          <p class="eyebrow">Diagnosis</p>
-          <h2>The training loss looked plausible. The model was not reading the image.</h2>
-          <p>Aggregate validation loss was misleading. The generated Markdown was fluent, but pages with different content received nearly identical outputs. I combined four diagnostics:</p>
+        <section><p class="eyebrow">Diagnosis</p><h2>The training loss looked plausible. The model was not reading the image.</h2>
+          <p>Aggregate validation loss was misleading. Generated Markdown was fluent, but pages with different content received nearly identical outputs. I combined four diagnostics:</p>
           <ul class="case-list">
             <li><strong>First-token loss:</strong> with no text prefix available, the model could not identify the first character from the image.</li>
             <li><strong>Cross-page similarity:</strong> compressed visual features became so similar that different pages were almost indistinguishable.</li>
             <li><strong>Self-retrieval:</strong> outputs were not more similar to their source page than to other pages.</li>
-            <li><strong>Linear probes:</strong> character identity was preserved in the temporal OCR sequence but disappeared after pooling and cross-modal projection.</li>
+            <li><strong>Linear probes:</strong> character identity was preserved in temporal OCR features but disappeared after pooling and cross-modal projection.</li>
           </ul>
-          <blockquote>The most useful result was not a higher score. It was evidence that the model had learned a document-style prior while the image-to-text path remained effectively disconnected.</blockquote>
+          <blockquote>The most useful result was not a higher score. It was evidence that the model learned a document-style prior while the image-to-text path remained effectively disconnected.</blockquote>
         </section>
-
-        <section>
-          <p class="eyebrow">Experiments</p>
-          <h2>Changing the obvious variable did not fix the failure.</h2>
+        <section><p class="eyebrow">Experiments</p><h2>Changing the obvious variable did not fix the failure.</h2>
           <p>I compared visual-token budgets, decoder sizes, soft CTC OCR tokens, hybrid text-plus-soft-token inputs, and formula-page oversampling. Increasing the visual budget from 256 to 1024 tokens did not produce page-specific text. A larger decoder and explicit OCR context improved accuracy, but did not remove the information bottleneck.</p>
-          <div class="results-table-wrap">
-            <table class="results-table">
-              <thead><tr><th>Setting</th><th>Metric</th><th>Result</th></tr></thead>
-              <tbody><tr>
-        <td>Clean olmOCR pages, 0.5B decoder</td>
-        <td>char accuracy</td>
-        <td><strong>55.06%</strong></td>
-      </tr><tr>
-        <td>Clean olmOCR pages, 1.5B decoder</td>
-        <td>char accuracy</td>
-        <td><strong>64.22%</strong></td>
-      </tr><tr>
-        <td>OmniDocBench subset, 0.5B decoder</td>
-        <td>char accuracy</td>
-        <td><strong>20.74%</strong></td>
-      </tr><tr>
-        <td>OmniDocBench subset, 1.5B decoder</td>
-        <td>char accuracy</td>
-        <td><strong>26.34%</strong></td>
-      </tr><tr>
-        <td>Clean 50 pages, 1.5B hard OCR</td>
-        <td>char accuracy</td>
-        <td><strong>64.76%</strong></td>
-      </tr><tr>
-        <td>Clean 50 pages, formula 3x oversampling</td>
-        <td>char accuracy</td>
-        <td><strong>73.83%</strong></td>
-      </tr></tbody>
-            </table>
-          </div>
+          <div class="results-table-wrap"><table class="results-table"><thead><tr><th>Setting</th><th>Metric</th><th>Result</th></tr></thead><tbody><tr><td>Clean olmOCR pages, 0.5B decoder</td><td>char accuracy</td><td><strong>55.06%</strong></td></tr><tr><td>Clean olmOCR pages, 1.5B decoder</td><td>char accuracy</td><td><strong>64.22%</strong></td></tr><tr><td>OmniDocBench subset, 0.5B decoder</td><td>char accuracy</td><td><strong>20.74%</strong></td></tr><tr><td>OmniDocBench subset, 1.5B decoder</td><td>char accuracy</td><td><strong>26.34%</strong></td></tr><tr><td>Clean 50 pages, 1.5B hard OCR</td><td>char accuracy</td><td><strong>64.76%</strong></td></tr><tr><td>Clean 50 pages, formula 3x oversampling</td><td>char accuracy</td><td><strong>73.83%</strong></td></tr></tbody></table></div>
         </section>
-
-        <section>
-          <p class="eyebrow">Takeaway</p>
-          <h2>What this project changed in how I work.</h2>
+        <section><p class="eyebrow">Takeaway</p><h2>What this project changed in how I work.</h2>
           <ul class="case-list">
             <li>I now treat a fluent generated example as a hypothesis, not evidence that a model uses its input.</li>
             <li>I design negative controls before spending time on larger models or longer training.</li>
-            <li>I document failed experiments and their boundary conditions so that the next decision is based on evidence.</li>
+            <li>I document failed experiments and boundary conditions so the next decision is based on evidence.</li>
             <li>I learned that a well-explained failure can be more informative than an untrustworthy improvement.</li>
           </ul>
         </section>
-
-        <section class="case-limitations">
-          <p class="eyebrow">Limitations</p>
-          <h2>What this study does not establish.</h2>
-          <p>The main evaluations use small fixed subsets of 20 or 50 pages, and some comparisons were run with a single seed. The results are useful for engineering decisions and failure diagnosis, but they are not a statistically complete benchmark study. The project is a reproduction and analysis, not peer-reviewed research.</p>
-        </section>
+        <section class="case-limitations"><p class="eyebrow">Limitations</p><h2>What this study does not establish.</h2><p>The main evaluations use small fixed subsets of 20 or 50 pages, and some comparisons were run with a single seed. The results are useful for engineering decisions and failure diagnosis, but not a statistically complete benchmark study. This is a reproduction and analysis, not peer-reviewed research.</p></section>
       </article>
     </div>
   </main>
@@ -180,25 +105,13 @@
       <div class="footer-meta">
         <a href="mailto:limingjv2007@outlook.com">Email</a>
         <a href="https://github.com/taoanfang" target="_blank" rel="noopener">GitHub</a>
-        <a href="../notes.html">Notes</a>
-        <span>Updated 2026年11月7日</span>
+        <a href="https://taoanfang.github.io/learning-notes/">Notes</a>
+        <a href="../cv.html">CV</a>
+        <span>Updated Nov 7, 2026</span>
       </div>
     </div>
   </footer>
-  <dialog class="search-dialog" data-search-dialog>
-    <div class="search-shell">
-      <div class="search-field">
-        <i data-lucide="search" width="20" height="20" aria-hidden="true"></i>
-        <input type="search" placeholder="Search concepts, courses, or code" aria-label="Search notes" data-search-input autocomplete="off">
-        <button class="icon-button" type="button" data-search-close aria-label="Close search"><i data-lucide="x" width="18" height="18" aria-hidden="true"></i></button>
-      </div>
-      <div class="search-meta" data-search-meta>Start typing to search</div>
-      <div class="search-results" data-search-results></div>
-    </div>
-  </dialog>
   <script src="../assets/vendor/lucide.min.js"></script>
-  <script src="../assets/vendor/katex.min.js"></script>
-  <script src="../assets/vendor/auto-render.min.js"></script>
   <script src="../assets/app.js"></script>
 </body>
 </html>

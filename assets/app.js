@@ -156,11 +156,13 @@ if (tocHeadings.length && "IntersectionObserver" in window) {
   tocHeadings.forEach((heading) => observer.observe(heading));
 }
 
-const prefetchSearch = () => getSearchIndex().catch(() => {});
-if ("requestIdleCallback" in window) {
-  window.requestIdleCallback(prefetchSearch, { timeout: 2500 });
-} else {
-  window.setTimeout(prefetchSearch, 1200);
+if (searchDialog) {
+  const prefetchSearch = () => getSearchIndex().catch(() => {});
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(prefetchSearch, { timeout: 2500 });
+  } else {
+    window.setTimeout(prefetchSearch, 1200);
+  }
 }
 
 document.querySelector("[data-print]")?.addEventListener("click", () => window.print());

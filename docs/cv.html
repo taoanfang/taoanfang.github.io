@@ -12,7 +12,6 @@
   <meta property="og:url" content="https://taoanfang.github.io/">
   <title>Curriculum Vitae · Mingjv Li</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/vendor/katex.min.css">
   <link rel="stylesheet" href="assets/styles.css">
   <script>
     (() => {
@@ -26,22 +25,15 @@
   <a class="skip-link" href="#main-content">跳到正文</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="index.html" aria-label="返回首页">
+      <a class="brand" href="index.html" aria-label="Back to homepage">
         <span class="brand-mark">ML</span>
         <span class="brand-text">Mingjv Li</span>
       </a>
       <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">
         <i data-lucide="menu" width="20" height="20" aria-hidden="true"></i>
       </button>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a class="" href="index.html#about">About</a><a class="" href="index.html#research">Research</a><a class="" href="project/deepseek-ocr-reproduction.html">Project</a><a class="" href="notes.html">Notes</a><a class="is-current" href="cv.html">CV</a>
-      </nav>
+      <nav class="site-nav" aria-label="Main navigation"><a class="" href="index.html#about">About</a><a class="" href="index.html#research">Research</a><a class="" href="project/deepseek-ocr-reproduction.html">Project</a><a class="" href="https://taoanfang.github.io/learning-notes/">Notes</a><a class="is-current" href="cv.html">CV</a></nav>
       <div class="header-actions">
-        <button class="search-trigger" type="button" data-search-open aria-label="Search notes">
-          <i data-lucide="search" width="17" height="17" aria-hidden="true"></i>
-          <span>Search</span>
-          <kbd>/</kbd>
-        </button>
         <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle color theme">
           <i data-lucide="sun-moon" width="18" height="18" aria-hidden="true"></i>
         </button>
@@ -52,72 +44,20 @@
     </div>
   </header>
   <main id="main-content" class="cv-page">
-    <div class="cv-toolbar">
-      <a class="back-link" href="index.html"><i data-lucide="arrow-left" width="15" height="15" aria-hidden="true"></i> Back to homepage</a>
-      <button class="secondary-button print-cv" type="button" data-print><i data-lucide="printer" width="16" height="16" aria-hidden="true"></i> Print CV</button>
-    </div>
+    <div class="cv-toolbar"><a class="back-link" href="index.html"><i data-lucide="arrow-left" width="15" height="15" aria-hidden="true"></i> Back to homepage</a><button class="secondary-button print-cv" type="button" data-print><i data-lucide="printer" width="16" height="16" aria-hidden="true"></i> Print CV</button></div>
     <article class="cv-sheet">
       <header class="cv-header">
-        <div>
-          <h1>Mingjv Li</h1>
-          <p>Computer Science Undergraduate · Communication University of China</p>
-        </div>
-        <div class="cv-contact">
-          <a href="mailto:limingjv2007@outlook.com">limingjv2007@outlook.com</a>
-          <a href="https://github.com/taoanfang" target="_blank" rel="noopener">github.com/taoanfang</a>
-          <span>Beijing, China</span>
-        </div>
+        <div><h1>Mingjv Li</h1><p>Computer Science Undergraduate · Communication University of China</p></div>
+        <div class="cv-contact"><a href="mailto:limingjv2007@outlook.com">limingjv2007@outlook.com</a><a href="https://github.com/taoanfang" target="_blank" rel="noopener">github.com/taoanfang</a><span>Beijing, China</span></div>
       </header>
-
-      <section class="cv-section">
-        <h2>Research Direction</h2>
-        <p>My current interest is multimodal machine learning, especially how visual information is compressed, aligned, and evaluated in language-model pipelines. I am early in my research training and am looking for an environment where I can learn rigorous methods while contributing careful engineering, reproducible experiments, and honest analysis of negative results.</p>
-      </section>
-
-      <section class="cv-section">
-        <h2>Education</h2>
-        <section class="cv-block">
-        <div class="cv-block-heading">
-          <div><h2>Communication University of China</h2><p>B.Eng. in Computer Science and Technology</p></div>
-          <span>Sep 2025 - Present</span>
-        </div>
+      <section class="cv-section"><h2>Research Direction</h2><p>My current interest is multimodal machine learning, especially how visual information is compressed, aligned, and evaluated in language-model pipelines. I am early in my research training and am looking for an environment where I can learn rigorous methods while contributing careful engineering, reproducible experiments, and honest analysis of negative results.</p></section>
+      <section class="cv-section"><h2>Education</h2><section class="cv-block">
+        <div class="cv-block-heading"><div><h2>Communication University of China</h2><p>B.Eng. in Computer Science and Technology</p></div><span>Sep 2025 - Present</span></div>
         <ul><li>GPA: 3.61 / 4.0</li><li>Average score: 90 / 100</li><li>Relevant coursework: programming, data structures, machine learning</li></ul>
-      </section>
-      </section>
-
-      <section class="cv-section">
-        <h2>Selected Project</h2>
-        <div class="cv-project">
-          <div class="cv-block-heading">
-            <div><h3>DeepSeek-OCR Reproduction</h3><p>Independent systems project</p></div>
-            <span>2026</span>
-          </div>
-          <p>Built a lightweight DeepSeek-OCR-style pipeline on an 8GB laptop GPU, then designed diagnostics to explain why the trained model learned document-style priors instead of reading the page.</p>
-          <ul><li>Constructed a 428M SigLIP encoder, convolutional visual compressor, projection layer, and Qwen2.5 decoder pipeline with two-stage LoRA training.</li><li>Trained on 5,393 olmOCR pages and evaluated against OmniDocBench without using the benchmark in training.</li><li>Found that both 256-token and 1024-token visual budgets produced page-level template collapse, pointing to the frozen encoder and loss of temporal character alignment rather than token count alone.</li><li>Compared Qwen2.5-0.5B and 1.5B, soft CTC OCR tokens, hybrid text-plus-soft-token inputs, and formula oversampling on rented GPUs.</li></ul>
-        </div>
-      </section>
-
-      <section class="cv-section">
-        <h2>Technical Skills</h2>
-        <div class="cv-skills"><div class="cv-skill-row">
-        <strong>Programming</strong>
-        <span>Python · C · Java</span>
-      </div><div class="cv-skill-row">
-        <strong>ML / Data</strong>
-        <span>PyTorch · Hugging Face · NumPy · Pandas</span>
-      </div><div class="cv-skill-row">
-        <strong>Engineering</strong>
-        <span>Git · Linux · remote GPU training · experiment reporting</span>
-      </div></div>
-      </section>
-
-      <section class="cv-section">
-        <h2>Leadership</h2>
-        <div class="cv-block-heading">
-          <div><h3>Minister, Practice Department</h3><p>School of Computer Science</p></div>
-        </div>
-        <p>Organized student activities, coordinated departmental operations, and led recruitment and onboarding.</p>
-      </section>
+      </section></section>
+      <section class="cv-section"><h2>Selected Project</h2><div class="cv-project"><div class="cv-block-heading"><div><h3>DeepSeek-OCR Reproduction</h3><p>Independent systems project</p></div><span>2026</span></div><p>Built a lightweight DeepSeek-OCR-style pipeline on an 8GB laptop GPU, then designed diagnostics to explain why the trained model learned document-style priors instead of reading the page.</p><ul><li>Constructed a 428M SigLIP encoder, convolutional visual compressor, projection layer, and Qwen2.5 decoder pipeline with two-stage LoRA training.</li><li>Trained on 5,393 olmOCR pages and evaluated against OmniDocBench without using the benchmark in training.</li><li>Found that both 256-token and 1024-token visual budgets produced page-level template collapse, pointing to the frozen encoder and loss of temporal character alignment rather than token count alone.</li><li>Compared Qwen2.5-0.5B and 1.5B, soft CTC OCR tokens, hybrid text-plus-soft-token inputs, and formula oversampling on rented GPUs.</li></ul></div></section>
+      <section class="cv-section"><h2>Technical Skills</h2><div class="cv-skills"><div class="cv-skill-row"><strong>Programming</strong><span>Python · C · Java</span></div><div class="cv-skill-row"><strong>ML / Data</strong><span>PyTorch · Hugging Face · NumPy · Pandas</span></div><div class="cv-skill-row"><strong>Engineering</strong><span>Git · Linux · remote GPU training · experiment reporting</span></div></div></section>
+      <section class="cv-section"><h2>Leadership</h2><div class="cv-block-heading"><div><h3>Minister, Practice Department</h3><p>School of Computer Science</p></div></div><p>Organized student activities, coordinated departmental operations, and led recruitment and onboarding.</p></section>
     </article>
   </main>
   <footer class="site-footer">
@@ -129,25 +69,13 @@
       <div class="footer-meta">
         <a href="mailto:limingjv2007@outlook.com">Email</a>
         <a href="https://github.com/taoanfang" target="_blank" rel="noopener">GitHub</a>
-        <a href="notes.html">Notes</a>
-        <span>Updated 2026年11月7日</span>
+        <a href="https://taoanfang.github.io/learning-notes/">Notes</a>
+        <a href="cv.html">CV</a>
+        <span>Updated Nov 7, 2026</span>
       </div>
     </div>
   </footer>
-  <dialog class="search-dialog" data-search-dialog>
-    <div class="search-shell">
-      <div class="search-field">
-        <i data-lucide="search" width="20" height="20" aria-hidden="true"></i>
-        <input type="search" placeholder="Search concepts, courses, or code" aria-label="Search notes" data-search-input autocomplete="off">
-        <button class="icon-button" type="button" data-search-close aria-label="Close search"><i data-lucide="x" width="18" height="18" aria-hidden="true"></i></button>
-      </div>
-      <div class="search-meta" data-search-meta>Start typing to search</div>
-      <div class="search-results" data-search-results></div>
-    </div>
-  </dialog>
   <script src="assets/vendor/lucide.min.js"></script>
-  <script src="assets/vendor/katex.min.js"></script>
-  <script src="assets/vendor/auto-render.min.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>

@@ -12,7 +12,6 @@
   <meta property="og:url" content="https://taoanfang.github.io/">
   <title>Mingjv Li · Computer Science Undergraduate</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/vendor/katex.min.css">
   <link rel="stylesheet" href="assets/styles.css">
   <script>
     (() => {
@@ -26,22 +25,15 @@
   <a class="skip-link" href="#main-content">跳到正文</a>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="index.html" aria-label="返回首页">
+      <a class="brand" href="index.html" aria-label="Back to homepage">
         <span class="brand-mark">ML</span>
         <span class="brand-text">Mingjv Li</span>
       </a>
       <button class="menu-button" type="button" data-menu-toggle aria-label="Open navigation" aria-expanded="false">
         <i data-lucide="menu" width="20" height="20" aria-hidden="true"></i>
       </button>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a class="is-current" href="index.html#about">About</a><a class="" href="index.html#research">Research</a><a class="" href="project/deepseek-ocr-reproduction.html">Project</a><a class="" href="notes.html">Notes</a><a class="" href="cv.html">CV</a>
-      </nav>
+      <nav class="site-nav" aria-label="Main navigation"><a class="is-current" href="index.html#about">About</a><a class="" href="index.html#research">Research</a><a class="" href="project/deepseek-ocr-reproduction.html">Project</a><a class="" href="https://taoanfang.github.io/learning-notes/">Notes</a><a class="" href="cv.html">CV</a></nav>
       <div class="header-actions">
-        <button class="search-trigger" type="button" data-search-open aria-label="Search notes">
-          <i data-lucide="search" width="17" height="17" aria-hidden="true"></i>
-          <span>Search</span>
-          <kbd>/</kbd>
-        </button>
         <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle color theme">
           <i data-lucide="sun-moon" width="18" height="18" aria-hidden="true"></i>
         </button>
@@ -80,10 +72,7 @@
 
     <section class="research-direction" id="research">
       <div class="section-heading academic-heading">
-        <div>
-          <p class="eyebrow">Research Direction</p>
-          <h2>Learning to ask questions that experiments can answer.</h2>
-        </div>
+        <div><p class="eyebrow">Research Direction</p><h2>Learning to ask questions that experiments can answer.</h2></div>
         <p>My current interest is multimodal machine learning, especially how visual information is compressed, aligned, and evaluated in language-model pipelines. I am early in my research training and am looking for an environment where I can learn rigorous methods while contributing careful engineering, reproducible experiments, and honest analysis of negative results.</p>
       </div>
       <div class="direction-grid"><article class="direction-item">
@@ -103,22 +92,14 @@
 
     <section class="academic-background">
       <div class="academic-background-inner">
-        <div class="background-block">
-          <p class="eyebrow">Education</p>
-          <article class="education-entry">
+        <div class="background-block"><p class="eyebrow">Education</p><article class="education-entry">
         <div class="education-heading">
-          <div>
-            <h3>Communication University of China</h3>
-            <p>B.Eng. in Computer Science and Technology</p>
-          </div>
+          <div><h3>Communication University of China</h3><p>B.Eng. in Computer Science and Technology</p></div>
           <span>Sep 2025 - Present</span>
         </div>
         <ul><li>GPA: 3.61 / 4.0</li><li>Average score: 90 / 100</li><li>Relevant coursework: programming, data structures, machine learning</li></ul>
-      </article>
-        </div>
-        <div class="background-block">
-          <p class="eyebrow">Technical Foundation</p>
-          <div class="skills-list"><div class="skill-group">
+      </article></div>
+        <div class="background-block"><p class="eyebrow">Technical Foundation</p><div class="skills-list"><div class="skill-group">
         <span>Programming</span>
         <p><em>Python</em><em>C</em><em>Java</em></p>
       </div><div class="skill-group">
@@ -127,8 +108,7 @@
       </div><div class="skill-group">
         <span>Engineering</span>
         <p><em>Git</em><em>Linux</em><em>remote GPU training</em><em>experiment reporting</em></p>
-      </div></div>
-        </div>
+      </div></div></div>
       </div>
     </section>
 
@@ -170,47 +150,38 @@
 
     <section class="learning-section">
       <div class="learning-inner">
-        <div>
-          <p class="eyebrow">How I Work</p>
-          <h2>Build the smallest useful system, then measure what it gets wrong.</h2>
-        </div>
+        <div><p class="eyebrow">How I Work</p><h2>Build the smallest useful system, then measure what it gets wrong.</h2></div>
         <ul class="learning-list"><li>Reading and reproducing papers before extending them</li><li>Designing controls that make model failures measurable</li><li>Writing concise experiment reports with reproducible commands</li><li>Managing memory, data, and evaluation budgets on small GPUs</li></ul>
       </div>
     </section>
 
     <section class="home-notes-section" id="notes">
       <div class="section-heading academic-heading">
-        <div>
-          <p class="eyebrow">Supporting Work</p>
-          <h2>Course notes, kept as a working record.</h2>
-        </div>
-        <p>39 notes across Java and data structures, Python, and Stanford CS229. These are study records, not claims of completed research.</p>
+        <div><p class="eyebrow">Supporting Work</p><h2>Course notes, kept as a separate working record.</h2></div>
+        <p>39 notes across Java and data structures, Python, and Stanford CS229. The notes archive has its own repository and is not the personal homepage.</p>
       </div>
-      <div class="notes-course-list"><a class="notes-course-row accent-teal" href="cs61b/index.html">
+      <div class="notes-course-list"><a class="notes-course-row accent-teal" href="https://taoanfang.github.io/learning-notes/cs61b/index.html">
         <span>CS61B</span>
-        <strong>Java 与数据结构</strong>
+        <strong>Java and data structures</strong>
         <small>20 notes</small>
-        <i data-lucide="arrow-right" width="17" height="17" aria-hidden="true"></i>
-      </a><a class="notes-course-row accent-amber" href="python/index.html">
+        <i data-lucide="arrow-up-right" width="17" height="17" aria-hidden="true"></i>
+      </a><a class="notes-course-row accent-amber" href="https://taoanfang.github.io/learning-notes/python/index.html">
         <span>Python</span>
-        <strong>程序设计基础</strong>
+        <strong>Programming foundations</strong>
         <small>12 notes</small>
-        <i data-lucide="arrow-right" width="17" height="17" aria-hidden="true"></i>
-      </a><a class="notes-course-row accent-blue" href="cs229/index.html">
+        <i data-lucide="arrow-up-right" width="17" height="17" aria-hidden="true"></i>
+      </a><a class="notes-course-row accent-blue" href="https://taoanfang.github.io/learning-notes/cs229/index.html">
         <span>CS229</span>
-        <strong>Machine Learning</strong>
+        <strong>Machine learning</strong>
         <small>7 notes</small>
-        <i data-lucide="arrow-right" width="17" height="17" aria-hidden="true"></i>
+        <i data-lucide="arrow-up-right" width="17" height="17" aria-hidden="true"></i>
       </a></div>
-      <a class="text-link notes-library-link" href="notes.html">Open the full notes library <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i></a>
+      <a class="text-link notes-library-link" href="https://taoanfang.github.io/learning-notes/">Open the notes archive <i data-lucide="arrow-up-right" width="16" height="16" aria-hidden="true"></i></a>
     </section>
 
     <section class="contact-section">
       <div class="contact-inner">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2>I am looking for a place to learn how rigorous research is done.</h2>
-        </div>
+        <div><p class="eyebrow">Contact</p><h2>I am looking for a place to learn how rigorous research is done.</h2></div>
         <div class="contact-copy">
           <p>If my background is relevant to your group, I would be glad to discuss how I can contribute as an undergraduate researcher.</p>
           <a class="primary-button" href="mailto:limingjv2007@outlook.com"><i data-lucide="mail" width="17" height="17" aria-hidden="true"></i> limingjv2007@outlook.com</a>
@@ -227,25 +198,13 @@
       <div class="footer-meta">
         <a href="mailto:limingjv2007@outlook.com">Email</a>
         <a href="https://github.com/taoanfang" target="_blank" rel="noopener">GitHub</a>
-        <a href="notes.html">Notes</a>
-        <span>Updated 2026年11月7日</span>
+        <a href="https://taoanfang.github.io/learning-notes/">Notes</a>
+        <a href="cv.html">CV</a>
+        <span>Updated Nov 7, 2026</span>
       </div>
     </div>
   </footer>
-  <dialog class="search-dialog" data-search-dialog>
-    <div class="search-shell">
-      <div class="search-field">
-        <i data-lucide="search" width="20" height="20" aria-hidden="true"></i>
-        <input type="search" placeholder="Search concepts, courses, or code" aria-label="Search notes" data-search-input autocomplete="off">
-        <button class="icon-button" type="button" data-search-close aria-label="Close search"><i data-lucide="x" width="18" height="18" aria-hidden="true"></i></button>
-      </div>
-      <div class="search-meta" data-search-meta>Start typing to search</div>
-      <div class="search-results" data-search-results></div>
-    </div>
-  </dialog>
   <script src="assets/vendor/lucide.min.js"></script>
-  <script src="assets/vendor/katex.min.js"></script>
-  <script src="assets/vendor/auto-render.min.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>
